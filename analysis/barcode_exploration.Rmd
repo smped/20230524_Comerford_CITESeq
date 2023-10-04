@@ -1,0 +1,23 @@
+---
+title: "Quick Barcode Check"
+output: html_document
+date: "2023-10-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, warning = FALSE
+)
+```
+
+```{r packages}
+library(tidyverse)
+```
+
+
+```{r}
+adt_hto_counts <- read_delim(
+  here::here("data/f")
+)
+```
+
