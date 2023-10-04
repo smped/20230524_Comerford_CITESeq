@@ -1,0 +1,30 @@
+{
+  "alt_resolved_cell_numbers": [],
+  "cmd": "alevin-fry quant -m /hpcfs/users/a1018048/refs/grcm39/transcriptome_splici_fl86/transcriptome_splici_fl86_t2g_3col.tsv -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant/crlike -r cr-like -t 16 --use-mtx",
+  "dump_eq": false,
+  "empty_resolved_cell_numbers": [],
+  "num_genes": 170823,
+  "num_quantified_cells": 17978,
+  "quant_options": {
+    "cmdline": "alevin-fry quant -m /hpcfs/users/a1018048/refs/grcm39/transcriptome_splici_fl86/transcriptome_splici_fl86_t2g_3col.tsv -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant/crlike -r cr-like -t 16 --use-mtx",
+    "dump_eq": false,
+    "filter_list": null,
+    "init_uniform": false,
+    "input_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant",
+    "large_graph_thresh": 0,
+    "num_bootstraps": 0,
+    "num_threads": 16,
+    "output_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_quant/crlike",
+    "pug_exact_umi": false,
+    "resolution": "CellRangerLike",
+    "sa_model": "WinnerTakeAll",
+    "small_thresh": 10,
+    "summary_stat": false,
+    "tg_map": "/hpcfs/users/a1018048/refs/grcm39/transcriptome_splici_fl86/transcriptome_splici_fl86_t2g_3col.tsv",
+    "use_mtx": true,
+    "version": "0.8.2"
+  },
+  "resolution_strategy": "CellRangerLike",
+  "usa_mode": true,
+  "version_str": "0.8.2"
+}

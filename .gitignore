@@ -1,2 +1,12 @@
 *fastq.gz
+<<<<<<< HEAD
 .Rproj.user
+=======
+*rad
+*index*
+*bin
+*mtx
+*cols.txt
+*rows.txt
+slurm/*
+>>>>>>> 394c8f8c3980a9b7f089d0cb672689fb20f85032

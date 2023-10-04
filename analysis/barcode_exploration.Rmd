@@ -6,18 +6,170 @@ date: "2023-10-04"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
-  message = FALSE, warning = FALSE
+  message = FALSE, warning = FALSE,
+  fig.height = 7, fig.width = 10
 )
 ```
 
 ```{r packages}
 library(tidyverse)
-```
-
-
-```{r}
-adt_hto_counts <- read_delim(
-  here::here("data/f")
+library(ggside)
+library(scales)
+library(glue)
+theme_set(
+  theme_bw() + theme(plot.title = element_text(hjust = 0.5))
 )
 ```
+
+```{r load-refs}
+barcodes <- read_csv(here::here("data/external/barcodes.csv"))
+adt_hto <- read_tsv(
+  here::here("data/external/adt.tsv"), col_names = c("target", "barcode")
+)
+```
+
+
+```{r load-barcodes}
+adt_hto_counts <- here::here("data/fastq/merged/adt_hto_counts.txt.gz") %>% 
+  read_lines() %>% 
+  str_trim() %>% 
+  as_tibble_col() %>% 
+  separate(value, c("count", "barcode")) %>% 
+  mutate(count = as.integer(count))
+
+adt_hto_barcode_counts <- here::here("data/fastq/merged/adt_hto_barcode_counts.txt.gz") %>% 
+  read_lines() %>% 
+  str_trim() %>% 
+  as_tibble_col() %>% 
+  separate(value, c("count", "barcode")) %>% 
+  mutate(count = as.integer(count))
+
+rnaseq_barcode_counts <- here::here("data/fastq/merged/rnaseq_barcodes.txt.gz") %>% 
+  read_lines() %>% 
+  str_trim() %>% 
+  as_tibble_col() %>% 
+  separate(value, c("count", "barcode")) %>% 
+  mutate(count = as.integer(count))
+```
+
+## Introduction
+
+| File | Barcode Type | Barcode Position | UMI Position |
+|:---- |:------------ |:---------------- |:------------ |
+| 23-00584_S1_R1_001.fastq.gz | Cell | 1-16 | 17-28     |
+| 23-00585_S1_R1_001.fastq.gz | Cell | 1-16 | 17-28     |
+| 23-00585_S1_R2_001.fastq.gz | ADT/HTO | 11-25 |       |
+
+Table: Key barcode locations within sequenced libraries
+
+- Barcodes were extracted from the raw fastq files using the understood structure of the reads and excluding barcodes with an `N`.
+- Barcodes found more than once were counted, whilst singletons were discarded
+
+## ADT/HTO
+
+```{r plot-adt-hto-totals, fig.cap = glue("Total occurences of each ADT/HTO barcode within positions 11-25 of the file '23-00585_S2_R2_001.fastq.gz'. A total of {comma(sum(adt_hto_counts$count))} reads had barcodes extracted in this manner")}
+adt_hto_counts %>% 
+  left_join(adt_hto) %>% 
+  mutate(
+    target = fct_inorder(target) %>% 
+      fct_na_value_to_level("Undetermined")
+  ) %>% 
+  summarise(
+    count = sum(count), .by = target
+  ) %>% 
+  mutate(
+    type = case_when(
+      target %in% paste0("HTO", 1:3) ~ "HTO",
+      TRUE ~ "ADT"
+    )
+  ) %>% 
+  ggplot(aes(count / 1e6, fct_rev(target))) +
+  geom_col() +
+  geom_label(aes(label = round(count / 1e6, 1)), nudge_x = 1) +
+  facet_grid(rows = vars(type), scales = "free", space = "free") +
+  scale_x_continuous(expand = expansion(c(0, 0.05))) +
+  ggtitle("ADT/HTO Barcodes") +
+  labs(x = "Total Counts Within Reads (millions)", y = "Target")
+```
+
+A total of `r comma(nrow(adt_hto_barcode_counts))` cell barcodes were detected within the ADT/HTO file (23-00585_S1_R1_001.fastq.gz) without filtering beyond counts larger than 1.
+Reducing this to barcodes in more than 1500 reads gave `r comma(nrow(dplyr::filter(adt_hto_barcode_counts, count > 1500)))` barcodes.
+Notably, no error correction has been performed as these are just taken directly from the reads so this is a crude estimate.
+No assignment to reads based on the ADT/HTO barcode was performed
+
+```{r plot-adt-hto-cell-barcodes, fig.cap = "Cumulative proportion of the ADT/HTO sequencing library derived from barcodes arranged in increasing number of reads from which they were derived. Near the 1000 counts threshold, barcodes clearly began to represent the intended signal"}
+adt_hto_barcode_counts %>% 
+  arrange(count) %>% 
+  mutate(
+    p = count / sum(count), q = cumsum(p)
+  ) %>% 
+  ggplot(aes(count, q)) +
+  geom_line() +
+  geom_vline(xintercept = 1.5e3) +
+  scale_x_log10(labels = comma) +
+  scale_y_continuous(labels = percent) +
+  labs(
+    x = "Individual barcode counts",
+    y = "% Of Library"
+  )
+```
+
+## RNA-Seq
+
+
+A total of `r comma(nrow(rnaseq_barcode_counts))` cell barcodes were detected within the RNA-Seq file (23-00584_S1_R1_001.fastq.gz) without filtering beyond counts larger than 1 and ignoring UMIs.
+Reducing this to barcodes in more than 900 reads gave `r comma(nrow(dplyr::filter(rnaseq_barcode_counts, count > 900)))` barcodes.
+Notably, no error correction has been performed as these are just taken directly from the reads so this is a crude estimate.
+
+```{r plot-rnaseq0cell-barcodes, fig.cap = "Cumulative proportion of the RNA sequencing library derived from barcodes arranged in increasing number of reads from which they were derived. Near the 1000 counts threshold, barcodes clearly began to represent the intended signal"}
+rnaseq_barcode_counts %>% 
+  arrange(count) %>% 
+  mutate(
+    p = count / sum(count), q = cumsum(p)
+  ) %>% 
+  ggplot(aes(count, q)) +
+  geom_line() +
+  geom_vline(xintercept = 900) +
+  scale_x_log10(labels = comma) +
+  scale_y_continuous(labels = percent) +
+  labs(
+    x = "Individual barcode counts",
+    y = "% Of Library"
+  )
+```
+
+## Combined Libraries
+
+```{r count-comparison, fig.cap = "Total counts for each barcode after joining cell barcodes from the ADT/HTO library and the RNASeq library. For inclusion, barcodes were required to be present in > 1 read in both libraries."}
+all_barcodes <- rnaseq_barcode_counts %>% 
+  rename(rna_count = count) %>% 
+  inner_join(rename(adt_hto_barcode_counts, adt_count = count)) 
+all_barcodes %>% 
+  ggplot(
+    aes(rna_count, adt_count)
+  ) +
+  geom_point() +
+  geom_vline(xintercept = 600) +
+  geom_hline(yintercept = 1000) +
+  geom_xsidedensity() +
+  geom_ysidedensity() +
+  annotate(
+    "label", x = 1e5, y = 9e5, label = glue("n = {comma(nrow(all_barcodes))}")
+  ) +
+  scale_xsidey_continuous() +
+  scale_ysidex_continuous() +
+  scale_x_log10(labels = comma) +
+  scale_y_log10(labels = comma) +
+  labs(
+    x = "Total Reads in RNA-Seq Library",
+    y = "Total Reads in ADT/HTO Library",
+  ) +
+  theme(ggside.panel.scale = 0.3)
+```
+
+Using the above plot, minimum counts were set at 600 for cell barcodes within the RNA-Seq libraries and 1000 for the ADT/HTO libraries.
+Applying this criteria gave `r nrow(dplyr::filter(all_barcodes, rna_count > 600, adt_count > 1000))` barcodes passing both.
+This is clearly an unsatisfactory number of cells identified in both protocols.
+
+
 

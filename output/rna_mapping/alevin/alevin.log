@@ -1,0 +1,5 @@
+[2023-07-23 23:19:21.328] [alevinLog] [info] currently, --sketch implies --rad. Running in alignment-only mode (will write a RAD output).
+[2023-07-23 23:19:21.328] [alevinLog] [info] The --rad flag was passed to alevin. The reads will be selectively aligned and the output written to a RAD file.Arguments passed that correspond to other processing steps will be ignored
+[2023-07-23 23:19:21.328] [alevinLog] [info] The --sketch flag was passed; the alignment will be run in sketch mode.
+[2023-07-23 23:19:21.367] [alevinLog] [info] parsing read library format
+[2023-07-23 23:43:16.366] [alevinLog] [info] sc-align successful.

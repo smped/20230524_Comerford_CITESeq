@@ -1,0 +1,22 @@
+[2023-07-23 23:19:21.354] [jointLog] [info] setting maxHashResizeThreads to 16
+[2023-07-23 23:19:21.354] [jointLog] [info] Fragment incompatibility prior below threshold.  Incompatible fragments will be ignored.
+[2023-07-23 23:19:21.354] [jointLog] [info] The --mimicBT2, --mimicStrictBT2 and --hardFilter flags imply mapping validation (--validateMappings). Enabling mapping validation.
+[2023-07-23 23:19:21.354] [jointLog] [info] Usage of --validateMappings implies use of minScoreFraction. Since not explicitly specified, it is being set to 0.65
+[2023-07-23 23:19:21.354] [jointLog] [info] The use of range-factorized equivalence classes does not make sense in conjunction with --hardFilter.  Disabling range-factorized equivalence classes. 
+[2023-07-23 23:19:21.354] [jointLog] [info] Setting consensusSlack to selective-alignment default of 0.35.
+[2023-07-23 23:19:21.354] [jointLog] [info] Using default value of 0.87 for minScoreFraction in Alevin
+Using default value of 0.6 for consensusSlack in Alevin
+[2023-07-23 23:19:21.367] [jointLog] [info] There is 1 library.
+[2023-07-23 23:19:21.368] [jointLog] [info] Loading pufferfish index
+[2023-07-23 23:19:21.368] [jointLog] [info] Loading dense pufferfish index.
+[2023-07-23 23:19:46.492] [jointLog] [info] done
+[2023-07-23 23:19:46.549] [jointLog] [info] Index contained 220,061 targets
+[2023-07-23 23:19:46.594] [jointLog] [info] Number of decoys : 0
+[2023-07-23 23:43:15.336] [jointLog] [info] Number uniquely mapped : 168119607
+[2023-07-23 23:43:15.435] [jointLog] [info] Computed 0 rich equivalence classes for further processing
+[2023-07-23 23:43:15.435] [jointLog] [info] Counted 0 total reads in the equivalence classes 
+[2023-07-23 23:43:15.436] [jointLog] [info] Selectively-aligned 499825200 total fragments out of 576854434
+[2023-07-23 23:43:15.436] [jointLog] [info] Number of fragments discarded because they are best-mapped to decoys : 0
+[2023-07-23 23:43:15.436] [jointLog] [warning] Found 15431 reads with `N` in the UMI sequence and ignored the reads.
+Please report on github if this number is too large
+[2023-07-23 23:43:15.436] [jointLog] [info] finished sc_align()

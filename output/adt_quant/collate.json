@@ -1,0 +1,5 @@
+{
+  "cmd": "alevin-fry collate -r /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_mapping -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant -t 16",
+  "compressed_output": false,
+  "version_str": "0.8.2"
+}

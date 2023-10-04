@@ -1,0 +1,13 @@
+{
+    "salmon_version": "1.10.2",
+    "libType": "ISR",
+    "index": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/data/external/adt_index",
+    "mates1": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/data/fastq/merged/23-00585_S2_R1_001.fastq.gz",
+    "mates2": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/data/fastq/merged/23-00585_S2_R2_001.fastq.gz",
+    "read-geometry": "2[11-25]",
+    "bc-geometry": "1[1-16]",
+    "umi-geometry": "1[17-28]",
+    "output": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_mapping",
+    "threads": "16",
+    "sketch": []
+}

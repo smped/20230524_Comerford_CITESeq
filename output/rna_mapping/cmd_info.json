@@ -1,0 +1,13 @@
+{
+    "salmon_version": "1.10.2",
+    "libType": "ISR",
+    "index": "/hpcfs/users/a1018048/refs/grcm39/grcm39_splici_idx",
+    "mates1": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/data/fastq/merged/23-00584_S1_R1_001.fastq.gz",
+    "mates2": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/data/fastq/merged/23-00584_S1_R2_001.fastq.gz",
+    "read-geometry": "2[1-end]",
+    "bc-geometry": "1[1-16]",
+    "umi-geometry": "1[17-28]",
+    "output": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/rna_mapping",
+    "threads": "16",
+    "sketch": []
+}
