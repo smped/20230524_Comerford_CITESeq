@@ -1,0 +1,17 @@
+{
+  "cmd": "alevin-fry generate-permit-list -d fw -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_mapping -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant -k",
+  "expected_ori": "+",
+  "gpl_options": {
+    "cmdline": "alevin-fry generate-permit-list -d fw -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_mapping -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant -k",
+    "expected_ori": "Forward",
+    "fmeth": "KneeFinding",
+    "input_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_mapping",
+    "output_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant",
+    "velo_mode": false,
+    "version": "0.8.2"
+  },
+  "max-ambig-record": 2,
+  "permit-list-type": "filtered",
+  "velo_mode": false,
+  "version_str": "0.8.2"
+}

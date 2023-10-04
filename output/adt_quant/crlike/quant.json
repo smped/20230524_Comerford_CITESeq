@@ -1,0 +1,30 @@
+{
+  "alt_resolved_cell_numbers": [],
+  "cmd": "alevin-fry quant -m data/external/t2g_adt.tsv -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant/crlike -r cr-like -t 16 --use-mtx",
+  "dump_eq": false,
+  "empty_resolved_cell_numbers": [],
+  "num_genes": 20,
+  "num_quantified_cells": 74852,
+  "quant_options": {
+    "cmdline": "alevin-fry quant -m data/external/t2g_adt.tsv -i /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant -o /hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant/crlike -r cr-like -t 16 --use-mtx",
+    "dump_eq": false,
+    "filter_list": null,
+    "init_uniform": false,
+    "input_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant",
+    "large_graph_thresh": 0,
+    "num_bootstraps": 0,
+    "num_threads": 16,
+    "output_dir": "/hpcfs/users/a1018048/20230524_Comerford_CITESeq/output/adt_quant/crlike",
+    "pug_exact_umi": false,
+    "resolution": "CellRangerLike",
+    "sa_model": "WinnerTakeAll",
+    "small_thresh": 10,
+    "summary_stat": false,
+    "tg_map": "data/external/t2g_adt.tsv",
+    "use_mtx": true,
+    "version": "0.8.2"
+  },
+  "resolution_strategy": "CellRangerLike",
+  "usa_mode": false,
+  "version_str": "0.8.2"
+}
