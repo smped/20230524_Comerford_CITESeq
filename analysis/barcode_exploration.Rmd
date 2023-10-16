@@ -16,6 +16,7 @@ library(tidyverse)
 library(ggside)
 library(scales)
 library(glue)
+library(extraChIPs)
 theme_set(
   theme_bw() + theme(plot.title = element_text(hjust = 0.5))
 )
@@ -92,7 +93,7 @@ adt_hto_counts %>%
   labs(x = "Total Counts Within Reads (millions)", y = "Target")
 ```
 
-A total of `r comma(nrow(adt_hto_barcode_counts))` cell barcodes were detected within the ADT/HTO file (23-00585_S1_R1_001.fastq.gz) without filtering beyond counts larger than 1.
+`r comma(nrow(adt_hto_barcode_counts))` unique cell barcodes were detected within the ADT/HTO file (23-00585_S1_R1_001.fastq.gz) without filtering beyond counts larger than 1, and exclusion of barcodes containing an `N`.
 Reducing this to barcodes in more than 1500 reads gave `r comma(nrow(dplyr::filter(adt_hto_barcode_counts, count > 1500)))` barcodes.
 Notably, no error correction has been performed as these are just taken directly from the reads so this is a crude estimate.
 No assignment to reads based on the ADT/HTO barcode was performed
@@ -121,7 +122,7 @@ A total of `r comma(nrow(rnaseq_barcode_counts))` cell barcodes were detected wi
 Reducing this to barcodes in more than 900 reads gave `r comma(nrow(dplyr::filter(rnaseq_barcode_counts, count > 900)))` barcodes.
 Notably, no error correction has been performed as these are just taken directly from the reads so this is a crude estimate.
 
-```{r plot-rnaseq0cell-barcodes, fig.cap = "Cumulative proportion of the RNA sequencing library derived from barcodes arranged in increasing number of reads from which they were derived. Near the 1000 counts threshold, barcodes clearly began to represent the intended signal"}
+```{r plot-rnaseq-cell-barcodes, fig.cap = "Cumulative proportion of the RNA sequencing library derived from barcodes arranged in increasing number of reads from which they were derived. Near the 1000 counts threshold, barcodes clearly began to represent the intended signal"}
 rnaseq_barcode_counts %>% 
   arrange(count) %>% 
   mutate(
@@ -142,8 +143,10 @@ rnaseq_barcode_counts %>%
 
 ```{r count-comparison, fig.cap = "Total counts for each barcode after joining cell barcodes from the ADT/HTO library and the RNASeq library. For inclusion, barcodes were required to be present in > 1 read in both libraries."}
 all_barcodes <- rnaseq_barcode_counts %>% 
-  rename(rna_count = count) %>% 
-  inner_join(rename(adt_hto_barcode_counts, adt_count = count)) 
+  dplyr::rename(rna_count = count) %>% 
+  inner_join(
+    dplyr::rename(adt_hto_barcode_counts, adt_count = count)
+  ) 
 all_barcodes %>% 
   ggplot(
     aes(rna_count, adt_count)
@@ -171,5 +174,22 @@ Using the above plot, minimum counts were set at 600 for cell barcodes within th
 Applying this criteria gave `r nrow(dplyr::filter(all_barcodes, rna_count > 600, adt_count > 1000))` barcodes passing both.
 This is clearly an unsatisfactory number of cells identified in both protocols.
 
+```{r plot-venn, fig.cap = "Summary of barcodes found in ADT and RNA-Seq datasets. Barcodes were simply pulled from sequence reads by position, and restricted to those found 2 or more times. No error correction or alignments to libraries was performed"}
+list(
+  ADT = adt_hto_barcode_counts,
+  RNA = rnaseq_barcode_counts
+) %>% 
+  lapply(pull, "barcode") %>% 
+  plotOverlaps()
+```
 
+```{r plot-venn1000, fig.cap = "Summary of barcodes found in ADT and RNA-Seq datasets. Barcodes were simply pulled from sequence reads by position, and restricted to those found 1000 or more times. No error correction or alignments to libraries was performed."}
+list(
+  ADT = adt_hto_barcode_counts,
+  RNA = rnaseq_barcode_counts
+) %>% 
+  lapply(dplyr::filter, count >= 1000) %>% 
+  lapply(pull, "barcode") %>% 
+  plotOverlaps()
+```
 
